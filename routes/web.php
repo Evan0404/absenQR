@@ -18,14 +18,13 @@ use App\Livewire\UserDashboar;
 |
 */
 
-// Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
-
-// });
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/admin/dashboar', AdminDashboar::class );
-    Route::get('/admin/absen', AdminDashboar::class );
-    Route::get('/admin/rekap', AdminDashboar::class );
+    Route::get('/admin/absen', AdminAbsen::class );
+    Route::get('/admin/rekap', AdminRekap::class );
 });
+// Route::middleware(['auth', 'admin'])->group(function () {
+// });
 Auth::routes();
 

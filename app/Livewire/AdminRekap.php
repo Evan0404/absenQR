@@ -8,6 +8,6 @@ class AdminRekap extends Component
 {
     public function render()
     {
-        return view('livewire.admin-rekap');
+        return view('livewire.admin-rekap')->extends('components.layouts.app')->section('content');
     }
 }

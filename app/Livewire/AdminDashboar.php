@@ -8,6 +8,6 @@ class AdminDashboar extends Component
 {
     public function render()
     {
-        return view('livewire.admin-dashboar');
+        return view('livewire.admin-dashboar')->extends('components.layouts.app')->section('content');
     }
 }
