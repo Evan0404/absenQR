@@ -18,4 +18,10 @@
             <div data-i18n="Analytics">Rekap Absensi</div>
         </a>
     </li>
+    <li class="menu-item">
+        <a wire:navigate href="/akun" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Account Management</div>
+        </a>
+    </li>
 </ul>

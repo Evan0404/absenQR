@@ -6,6 +6,7 @@ use App\Livewire\AdminDashboar;
 use App\Livewire\AdminRekap;
 use App\Livewire\UserAbsen;
 use App\Livewire\UserDashboar;
+use App\Livewire\Akun;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,11 @@ use App\Livewire\UserDashboar;
 Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/admin/dashboar', AdminDashboar::class );
-    Route::get('/admin/absen', AdminAbsen::class );
+    // Route::get('/admin/absen', AdminAbsen::class );
+    Route::get('/admin/absen', [App\Http\Controllers\AdminAbsen::class, 'index'])->name('absen');
+    Route::post('/admin/absen', [App\Http\Controllers\AdminAbsen::class, 'create'])->name('createAbsen');
     Route::get('/admin/rekap', AdminRekap::class );
+    Route::get('/akun', Akun::class );
 });
 // Route::middleware(['auth', 'admin'])->group(function () {
 // });
