@@ -20,6 +20,14 @@ class AdminAbsen extends Controller
         ];
         return view('livewire.adminabsen', $data)->extends('components.layouts.app')->section('content');
     }
+    public function indexpulang()
+    {
+        //
+        $data = [
+            'pulang' => absen::rightJoin('users', 'absens.user_id', '=', 'users.id')->whereDate('absens.created_at', date('Y-m-d'))->where('absen_pulang', '!=', Null)->orderBy('absens.created_at', 'desc')->get()
+        ];
+        return view('livewire.adminabsenpulang', $data)->extends('components.layouts.app')->section('content');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -38,6 +46,20 @@ class AdminAbsen extends Controller
                 'jam_pulang' => $getUser->jam_pulang
             ]);
             return redirect()->route('absen')->with('messagesuc',"berhasil");
+        }
+    }
+    public function createpulang(Request $request)
+    {
+        $cekabsen = absen::where('user_id', $request->id)->whereDate('created_at', Carbon::parse(date('Y-m-d H:i:s')))->count();
+        if($cekabsen <= 0 ){
+            return redirect()->route('absenpulang')->with('message',"Belom Absen Masuk Yek");
+        }else{
+            $cekabsenn = absen::where('user_id', $request->id)->whereDate('created_at', Carbon::parse(date('Y-m-d H:i:s')))->first();
+            $getUser = User::where('id', $request->id)->first();
+            absen::where("id_absen", $cekabsenn['id_absen'])->update([
+                'absen_pulang' => Carbon::parse(date('Y-m-d H:i:s'))
+            ]);
+            return redirect()->route('absenpulang')->with('messagesuc',"berhasil");
         }
     }
 

@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
     // Route::get('/admin/absen', AdminAbsen::class );
     Route::get('/admin/absen', [App\Http\Controllers\AdminAbsen::class, 'index'])->name('absen');
     Route::post('/admin/absen', [App\Http\Controllers\AdminAbsen::class, 'create'])->name('createAbsen');
+    Route::get('/admin/absen/pulang', [App\Http\Controllers\AdminAbsen::class, 'indexpulang'])->name('absenpulang');
+    Route::post('/admin/absen/pulang', [App\Http\Controllers\AdminAbsen::class, 'createpulang'])->name('createAbsenPulang');
     Route::get('/admin/rekap', AdminRekap::class );
     Route::get('/akun', Akun::class );
 });

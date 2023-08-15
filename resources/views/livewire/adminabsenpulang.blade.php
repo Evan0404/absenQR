@@ -1,21 +1,21 @@
 @extends('components.layouts.app')
 @section('content')
     <div>
-        <h2>Absensi Masuk</h2>
+        <h2>Absensi Pulang</h2>
         <br>
         <center>
             <div class="container ">
             </div>
             <div class="card container shadow-lg p-2" style="max-width: 450px;">
                 @if (session('message'))
-                    <div class="alert alert-danger" role="alert">Anda Sudah Absen</div>
+                    <div class="alert alert-danger" role="alert">Yek Gurung Absen Masuk</div>
                 @elseif (session('messagesuc'))
-                    <div class="alert alert-success" role="alert">Anda Berhasil Absen</div>
+                    <div class="alert alert-success" role="alert">Berhasil Absen Pulang</div>
                 @endif
                 <div wire:ignore>
                     <video id="preview" class="w-100 h-100"></video>
                 </div>
-                <form method="POST" id="form" action="{{ route('createAbsen') }}">
+                <form method="POST" id="form" action="{{ route('createAbsenPulang') }}">
                     @csrf
                     <input hidden type="text" name="id" id="idd" class="form-control">
                     <input hidden type="date" name="date" value="{{ date('Y-m-d') }}" class="form-control">
@@ -30,24 +30,24 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Waktu Masuk</th>
+                                    <th>Waktu Pulang</th>
                                     <th>Waktu Absen</th>
                                     <th>Nama Lengkap</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                @foreach ($masuk as $item)
+                                @foreach ($pulang as $item)
                                     <tr>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                            <strong>{{ $item->jam_masuk }}</strong>
+                                            <strong>{{ $item->jam_pulang }}</strong>
                                         </td>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                            <strong>{{ $item->absen_masuk }}</strong>
+                                            <strong>{{ $item->absen_pulang }}</strong>
                                         </td>
                                         <td>{{ $item->name }}</td>
-                                        @if ($item->jam_masuk < $item->absen_masuk)
-                                            <td><span class="badge bg-label-danger me-1">Telat Goblok</span></td>
+                                        @if ($item->jam_pulang > $item->absen_pulang)
+                                            <td><span class="badge bg-label-danger me-1">Balek Sek Goblok</span></td>
                                         @else
                                             <td><span class="badge bg-label-success me-1">Tepat Waktu</span></td>
                                         @endif
