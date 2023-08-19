@@ -9,7 +9,13 @@
     <li class="menu-item">
         <a wire:navigate href="/admin/absen" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Absensi</div>
+            <div data-i18n="Analytics">Absensi Masuk</div>
+        </a>
+    </li>
+    <li class="menu-item">
+        <a wire:navigate href="/admin/absen/pulang" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Absensi Pulang</div>
         </a>
     </li>
     <li class="menu-item">
