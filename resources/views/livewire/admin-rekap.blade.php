@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-8">
                             <label for="" class="mb-0">Pulang Tepat Waktu</label>
-                            <h2 class="mt-0">100</h2>
+                            <h2 class="mt-0">{{ $pulang_tepat_waktu }}</h2>
                         </div>
                     </div>
                     <div class="card-footer p-1 bg-primary"></div>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-8">
                             <label for="" class="mb-0">Pulang Duluan</label>
-                            <h2 class="mt-0">100</h2>
+                            <h2 class="mt-0">{{ $pulang_duluan }}</h2>
                         </div>
                     </div>
                     <div class="card-footer p-1 bg-dark"></div>
@@ -94,23 +94,56 @@
                 <tbody>
                     @foreach ($show as $item)
                         <tr>
-                            <th>{{ $item['created_at'] }}</th>
-                            <th>{{ $item['jam_masuk'] }}</th>
+                            <th>{{ $item['created_at']->format('d M Y') }}</th>
+                            <th>{{ $item['jam_masuk'] }} WIB</th>
                             @if ($item['absen_masuk'] > $item['jam_masuk'])
-                                <th class="text-danger">{{ $item['absen_masuk'] }}</th>
+                                <th class="text-danger">{{ $item['absen_masuk'] }} WIB</th>
                             @else
-                                <th>{{ $item['absen_masuk'] }}</th>
+                                <th>{{ $item['absen_masuk'] }} WIB</th>
                             @endif
-                            <th>{{ $item['jam_pulang'] }}</th>
+                            <th>{{ $item['jam_pulang'] }} WIB</th>
                             @if ($item['absen_pulang'] < $item['jam_pulang'])
-                                <th class="text-danger">{{ $item['absen_pulang'] }}</th>
+                                <th class="text-danger">{{ $item['absen_pulang'] }} WIB</th>
                             @else
-                                <th>{{ $item['absen_pulang'] }}</th>
+                                <th>{{ $item['absen_pulang'] }} WIB</th>
                             @endif
                             <th>
                                 <button class="btn btn-sm btn-success"><i class="bi bi-pen"></i></button>
-                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#del{{ $item->id }}"><i class="bi bi-trash"></i></button>
                             </th>
+                            <!-- Modal Delete-->
+                            <div class="modal fade" wire:ignore id="del{{ $item->id }}" tabindex="-1"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalCenterTitle">Delete Absen
+                                                {{ $item['created_at']->format('d M Y') }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    Data yang dihapus tidak dapat dikembalikan, Apakah
+                                                    anda
+                                                    yakin <br>
+                                                    ingin menghapus data ini ?
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="button" data-bs-dismiss="modal" class="btn btn-danger"
+                                                wire:click="delete({{ $item->id_absen }})">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </tr>
                     @endforeach
                 </tbody>
@@ -148,8 +181,8 @@
                                 <button class="btn btn-sm btn-primary" type="button"
                                     wire:click="changeid({{ $item->id }})" data-bs-toggle="modal"
                                     data-bs-target="#see"><i class="bi bi-eye"></i></button>
-                                <button class="btn btn-sm btn-danger" type="button"
-                                    wire:click="changeid({{ $item->id }})"><i class="bi bi-trash"></i></button>
+                                {{-- <button class="btn btn-sm btn-danger" type="button"
+                                    wire:click="changeid({{ $item->id }})"><i class="bi bi-trash"></i></button> --}}
                             </td>
                         </tr>
                     @endforeach

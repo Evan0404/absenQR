@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
     Route::get('/admin/rekap', AdminRekap::class );
     Route::get('/akun', Akun::class );
 });
-// Route::middleware(['auth', 'admin'])->group(function () {
-// });
+
+Route::get('/user/dashboar', UserDashboar::class);
 Auth::routes();
 
