@@ -108,12 +108,49 @@
                                 <th>{{ $item['absen_pulang'] }} WIB</th>
                             @endif
                             <th>
-                                <button class="btn btn-sm btn-success"><i class="bi bi-pen"></i></button>
+                                <button class="btn btn-sm btn-success"
+                                    wire:click="showforUpdate({{ $item->id_absen }})" class="btn btn-success btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#update{{ $item->id_absen }}"><i
+                                        class="bi bi-pen"></i></button>
                                 <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#del{{ $item->id }}"><i class="bi bi-trash"></i></button>
+                                    data-bs-target="#del{{ $item->id_absen }}"><i class="bi bi-trash"></i></button>
                             </th>
+                            <!-- Modal Update-->
+                            <div class="modal fade" wire:ignore id="update{{ $item->id_absen }}" tabindex="-1"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel1">Update
+                                                {{ $item->name }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="">Absen Masuk</label>
+                                                    <input type="time" wire:model="masuk" class="form-control">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="">Absen pulang</label>
+                                                    <input type="time" wire:model="pulang" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" wire:click="kosong"
+                                                class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="button" wire:click="update({{ $item->id_absen }})"
+                                                data-bs-dismiss="modal" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Modal Delete-->
-                            <div class="modal fade" wire:ignore id="del{{ $item->id }}" tabindex="-1"
+                            <div class="modal fade" wire:ignore id="del{{ $item->id_absen }}" tabindex="-1"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">

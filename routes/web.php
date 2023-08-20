@@ -32,5 +32,6 @@ Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
 });
 
 Route::get('/user/dashboar', UserDashboar::class);
+Route::get('/user/profile', UserAbsen::class);
 Auth::routes();
 

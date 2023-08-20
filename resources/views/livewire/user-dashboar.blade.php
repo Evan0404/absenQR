@@ -1,9 +1,6 @@
 <div>
     {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
     <h3>Dashboard of You</h3>
-    <center>
-        {{-- {!! QrCode::size(100)->generate(Auth::user()->id) !!} --}}
-    </center>
     <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-2">
         <div class="col">
             <div class="card shadow-lg">

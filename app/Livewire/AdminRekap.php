@@ -12,6 +12,8 @@ class AdminRekap extends Component
     public $user_id =0;
     public $tglawal;
     public $tglakhir;
+    public $masuk;
+    public $pulang;
 
     public $masuk_tepat_waktu;
     public $masuk_terlambat;
@@ -64,5 +66,26 @@ class AdminRekap extends Component
     public function delete($id_absen)
     {
         absen::where('id_absen', $id_absen)->delete();
+    }
+
+    public function showforUpdate($id)
+    {
+        $get1 = absen::where('id_absen', $id)->first();
+        $this->masuk = $get1['absen_masuk'];
+        $this->pulang = $get1['absen_pulang'];
+    }
+
+    public function kosong()
+    {
+        $this->masuk ='';
+        $this->pulang ='';
+    }
+
+    public function update($id)
+    {
+        absen::where('id_absen', $id)->update([
+            'absen_masuk' => $this->masuk,
+            'absen_pulang' => $this->pulang
+        ]);
     }
 }
