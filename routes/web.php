@@ -31,7 +31,11 @@ Route::group(['middleware' => 'auth', 'middleware' => 'admin'], function () {
     Route::get('/akun', Akun::class );
 });
 
-Route::get('/user/dashboar', UserDashboar::class);
-Route::get('/user/profile', UserAbsen::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', UserDashboar::class);
+    Route::get('/', UserDashboar::class);
+    Route::get('/user/profile', UserAbsen::class);
+});
+
 Auth::routes();
 

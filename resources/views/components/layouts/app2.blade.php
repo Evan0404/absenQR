@@ -27,7 +27,7 @@
                 </ul>
                 <ul class="navbar-nav  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" wire:navigate href="/user/dashboar">Dashboard</a>
+                        <a class="nav-link" aria-current="page" wire:navigate href="/">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-capitalize" wire:navigate
