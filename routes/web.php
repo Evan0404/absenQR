@@ -7,6 +7,7 @@ use App\Livewire\AdminRekap;
 use App\Livewire\UserAbsen;
 use App\Livewire\UserDashboar;
 use App\Livewire\Akun;
+use App\Livewire\UserIjin;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', UserDashboar::class);
     Route::get('/', UserDashboar::class);
     Route::get('/user/profile', UserAbsen::class);
+    Route::get('/user/izin', UserIjin::class);
 });
 
 Auth::routes();

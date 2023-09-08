@@ -30,6 +30,9 @@
                         <a class="nav-link" aria-current="page" wire:navigate href="/">Dashboard</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" aria-current="page" wire:navigate href="/user/izin">Perizinan</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-capitalize" wire:navigate
                             href="/user/profile">{{ Auth::user()->name }}</a>
                     </li>
