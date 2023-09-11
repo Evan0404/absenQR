@@ -5,7 +5,7 @@
         <div class="col">
             <div class="card shadow-lg">
                 <div class="row p-2">
-                    <div class="col-4 d-flex align-items-center">
+                    <div class="col-4           ">
                         <h2 class="mx-auto my-auto"><i class="text-success bi bi-calendar2-check"></i></h2>
                     </div>
                     <div class="col-8">

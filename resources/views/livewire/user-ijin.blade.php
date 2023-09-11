@@ -32,7 +32,7 @@
                          {{-- <input type="date" class="form-control"> --}}
                          <textarea name="" wire:model="ket" class="form-control"></textarea>
                      </div>
-                     <button class="btn btn-primary w-100" wire:click="createijin()">Ajukan</button>
+                     <button type="button" class="btn btn-primary w-100" wire:click="createIjin()">Ajukan</button>
                  </form>
              </div>
          </center>
@@ -40,10 +40,79 @@
      @elseif ($form == 2)
          <button wire:click="changeform('0')" class="btn btn-sm btn-success mt-0 mb-3"><i
                  class="bi bi-arrow-left-circle"></i> Back</button>
+         <center>
+             <div class="card shadow-lg p-2" style="max-width: 600px;">
+                 <h3>Cuti</h3>
+                 <br>
+                 <form>
+                     <div class="mb-3">
+                         <label for="exampleInputEmail1" class="form-label"
+                             style="float: left; margin-left: 2px;"><b>Nama</b></label>
+                         <input type="text" class="form-control" disabled readonly id="exampleInputEmail1"
+                             value="{{ Auth::user()->name }}" aria-describedby="emailHelp">
+                         {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label" style="float: left; margin-left: 2px;"><b>Tanggal
+                                 Cuti</b></label>
+                         <input type="date" wire:model="tglmulai" class="form-control">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label" style="float: left; margin-left: 2px;"><b>Sampai
+                                 Tanggal</b></label>
+                         <input type="date" wire:model="tglsampai" class="form-control">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label"
+                             style="float: left; margin-left: 2px;"><b>Keterangan</b></label>
+                         {{-- <input type="date" class="form-control"> --}}
+                         <textarea name="" wire:model="ket" class="form-control"></textarea>
+                     </div>
+                     <button type="button" class="btn btn-primary w-100" wire:click="createCuti()">Ajukan</button>
+                 </form>
+             </div>
+         </center>
          {{-- Form Ijin Cuti --}}
      @elseif ($form == 3)
          <button wire:click="changeform('0')" class="btn btn-sm btn-success mt-0 mb-3"><i
                  class="bi bi-arrow-left-circle"></i> Back</button>
+         <center>
+             <div class="card shadow-lg p-2" style="max-width: 600px;">
+                 <h3>Sakit</h3>
+                 <br>
+                 <form>
+                     <div class="mb-3">
+                         <label for="exampleInputEmail1" class="form-label"
+                             style="float: left; margin-left: 2px;"><b>Nama</b></label>
+                         <input type="text" class="form-control" disabled readonly id="exampleInputEmail1"
+                             value="{{ Auth::user()->name }}" aria-describedby="emailHelp">
+                         {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label" style="float: left; margin-left: 2px;"><b>Tanggal
+                                 Ijin</b></label>
+                         <input type="date" wire:model="tglmulai" class="form-control">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label" style="float: left; margin-left: 2px;"><b>Sampai
+                                 Tanggal</b></label>
+                         <input type="date" wire:model="tglsampai" class="form-control">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label" style="float: left; margin-left: 2px;"><b>Surat
+                                 Dokter</b></label>
+                         <input type="file" wire:model="foto" class="form-control">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label"
+                             style="float: left; margin-left: 2px;"><b>Keterangan</b></label>
+                         {{-- <input type="date" class="form-control"> --}}
+                         <textarea name="" wire:model="ket" class="form-control"></textarea>
+                     </div>
+                     <button type="button" class="btn btn-primary w-100" wire:click="createSakit()">Ajukan</button>
+                 </form>
+             </div>
+         </center>
          {{-- Form Ijin Sakit --}}
      @else
          {{-- <div class="row mt-2">
@@ -138,7 +207,8 @@
                      <div class="row">
                          <div class="col-4 d-flex align-items-center justify-content-center">
                              <center>
-                                 <h1 style="font-size: 3em;" class="text-warning"><i class="bi bi-receipt-cutoff"></i>
+                                 <h1 style="font-size: 3em;" class="text-warning"><i
+                                         class="bi bi-receipt-cutoff"></i>
                                  </h1>
                              </center>
                          </div>
@@ -185,15 +255,183 @@
                              </tr>
                          </thead>
                          <tbody>
-                             <tr>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                             </tr>
+                             @foreach ($ijin as $data)
+                                 <tr>
+                                     <td>{{ $data->tanggal_izin_awal }}</td>
+                                     <td>{{ $data->tanggal_izin_akhir }}</td>
+                                     <td>{{ $data->status }}</td>
+                                     <td>Izin (Luar Cuti)</td>
+                                     <td>
+                                         <div class="btn-group" role="group" aria-label="Basic example">
+                                             <button type="button" data-bs-toggle="modal" data-bs-target="#shw"
+                                                 wire:click="changeform('0')"
+                                                 wire:click="changeModal('izin', {{ $data->id_ijin }})"
+                                                 class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
+                                             @if ($data->status == 'Diajukan')
+                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#edt"
+                                                     wire:click="changeform('0')"
+                                                     wire:click="changeModal('izin', {{ $data->id_ijin }})"
+                                                     class="btn btn-sm btn-success"><i
+                                                         class="bi bi-pencil"></i></button>
+                                             @endif
+                                             <button type="button" class="btn btn-sm btn-danger"><i
+                                                     class="bi bi-trash"></i></button>
+                                         </div>
+                                     </td>
+                                 </tr>
+                             @endforeach
+                             @foreach ($cuti as $data)
+                                 <tr>
+                                     <td>{{ $data->tanggal_cuti_awal }}</td>
+                                     <td>{{ $data->tanggal_cuti_akhir }}</td>
+                                     <td>{{ $data->status }}</td>
+                                     <td>Cuti</td>
+                                     <td>
+                                         <div class="btn-group" role="group" aria-label="Basic example">
+                                             <button type="button" data-bs-toggle="modal" data-bs-target="#shw"
+                                                 wire:click="changeform('0')"
+                                                 wire:click="changeModal('cuti', {{ $data->id_cuti }})"
+                                                 class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
+                                             @if ($data->status == 'Diajukan')
+                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#edt"
+                                                     wire:click="changeform('0')"
+                                                     wire:click="changeModal('cuti', {{ $data->id_cuti }})"
+                                                     class="btn btn-sm btn-success"><i
+                                                         class="bi bi-pencil"></i></button>
+                                             @endif
+                                             <button type="button" class="btn btn-sm btn-danger"><i
+                                                     class="bi bi-trash"></i></button>
+                                         </div>
+                                     </td>
+                                 </tr>
+                             @endforeach
+                             @foreach ($sakit as $data)
+                                 <tr>
+                                     <td>{{ $data->tanggal_sakit_awal }}</td>
+                                     <td>{{ $data->tanggal_sakit_akhir }}</td>
+                                     <td>{{ $data->status }}</td>
+                                     <td>Sakit</td>
+                                     <td>
+                                         <div class="btn-group" role="group" aria-label="Basic example">
+                                             <button type="button" data-bs-toggle="modal" data-bs-target="#shw"
+                                                 wire:click="changeform('0')"
+                                                 wire:click="changeModal('sakit', {{ $data->id_sakit }})"
+                                                 class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
+                                             @if ($data->status == 'Diajukan')
+                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#edt"
+                                                     wire:click="changeform('0')"
+                                                     wire:click="changeModal('sakit', {{ $data->id_sakit }})"
+                                                     class="btn btn-sm btn-success"><i
+                                                         class="bi bi-pencil"></i></button>
+                                             @endif
+                                             <button type="button" class="btn btn-sm btn-danger"><i
+                                                     class="bi bi-trash"></i></button>
+                                         </div>
+                                     </td>
+                                 </tr>
+                             @endforeach
                          </tbody>
                      </table>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <!-- Modal Show -->
+     <div class="modal fade" wire:ignore id="shw" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail Perizinan</h1>
+                     <button type="button" class="btn-close" wire:click="changeform('0')"" data-bs-dismiss="modal"
+                         aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form>
+                         <div class="mb-3">
+                             <label for="exampleInputEmail1" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Nama</b></label>
+                             <input disabled type="text" class="form-control" disabled readonly
+                                 id="exampleInputEmail1" value="{{ Auth::user()->name }}"
+                                 aria-describedby="emailHelp">
+                             {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                         </div>
+                         <div class="mb-3">
+                             <label for="" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Tanggal
+                                     Izin</b></label>
+                             <input disabled type="date" wire:model="tglmulai" class="form-control">
+                         </div>
+                         <div class="mb-3">
+                             <label for="" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Sampai
+                                     Tanggal</b></label>
+                             <input disabled type="date" wire:model="tglsampai" class="form-control">
+                         </div>
+                         <div class="mb-3">
+                             <label for="" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Keterangan</b></label>
+                             {{-- <input type="date" class="form-control"> --}}
+                             <textarea disabled name="" wire:model="ket" class="form-control"></textarea>
+                         </div>
+                         {{-- <button type="button" class="btn btn-primary w-100"
+                             wire:click="createCuti()">Ajukan</button> --}}
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" wire:click="changeform('0')""
+                         data-bs-dismiss="modal">Close</button>
+                     {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <!-- Modal Edit -->
+     <div class="modal fade" wire:ignore id="edt" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Perizinan</h1>
+                     <button type="button" class="btn-close" wire:click="changeform('0')"" data-bs-dismiss="modal"
+                         aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <form>
+                         <div class="mb-3">
+                             <label for="exampleInputEmail1" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Nama</b></label>
+                             <input type="text" class="form-control" disabled readonly id="exampleInputEmail1"
+                                 value="{{ Auth::user()->name }}" aria-describedby="emailHelp">
+                             {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                         </div>
+                         <div class="mb-3">
+                             <label for="" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Tanggal
+                                     Izin</b></label>
+                             <input type="date" wire:model="tglmulai" class="form-control">
+                         </div>
+                         <div class="mb-3">
+                             <label for="" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Sampai
+                                     Tanggal</b></label>
+                             <input type="date" wire:model="tglsampai" class="form-control">
+                         </div>
+                         <div class="mb-3">
+                             <label for="" class="form-label"
+                                 style="float: left; margin-left: 2px;"><b>Keterangan</b></label>
+                             {{-- <input type="date" class="form-control"> --}}
+                             <textarea name="" wire:model="ket" class="form-control"></textarea>
+                         </div>
+                         {{-- <button type="button" class="btn btn-primary w-100"
+                             wire:click="createCuti()">Ajukan</button> --}}
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" wire:click="changeform('0')""
+                         data-bs-dismiss="modal">Close</button>
+                     {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
                  </div>
              </div>
          </div>
