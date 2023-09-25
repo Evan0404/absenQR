@@ -16,10 +16,13 @@ class UserIjin extends Component
 
     public $form =0;
     public $foto;
-    public $fotoShow;
+    public $fotoLama;
+    public $jenisModal;
     public $tglmulai;
     public $tglsampai;
     public $ket;
+    public $idPerizinan;
+
     public function render()
     {
         $data=[
@@ -34,8 +37,12 @@ class UserIjin extends Component
     {
         $this->form=$num;
         $this->ket ='';
+        $this->foto ='';
+        $this->fotoLama ='';
         $this->tglmulai ='';
         $this->tglsampai ='';
+        $this->jenisModal ='';
+        $this->idPerizinan  = '';
     }
 
     public function createIjin()
@@ -86,6 +93,7 @@ class UserIjin extends Component
         $this->form=0;
     }
 
+    // Menampilkan Modal Untuk Detail dan Edit
     public function changeModal($type, $id)
     {
         if($type == 'izin'){
@@ -93,20 +101,67 @@ class UserIjin extends Component
             $this->ket = $dataModal['keterangan'];
             $this->tglmulai =$dataModal['tanggal_izin_awal'];
             $this->tglsampai =$dataModal['tanggal_izin_akhir'];
+            $this->jenisModal = $type;
+            $this->idPerizinan = $dataModal['id_ijin'];
 
         }elseif($type == 'cuti'){
             $dataModal = cuti::where('id_cuti', $id)->first();
             $this->ket = $dataModal['keterangan'];
             $this->tglmulai =$dataModal['tanggal_cuti_awal'];
             $this->tglsampai =$dataModal['tanggal_cuti_akhir'];
+            $this->jenisModal = $type;
+            $this->idPerizinan = $dataModal['id_cuti'];
 
         }elseif($type == 'sakit'){
             $dataModal = sakit::where('id_sakit', $id)->first();
             $this->ket = $dataModal['keterangan'];
             $this->tglmulai =$dataModal['tanggal_sakit_awal'];
             $this->tglsampai =$dataModal['tanggal_sakit_akhir'];
-            $this->fotoShow =$dataModal['surat_dokter'];
-
+            $this->fotoLama =$dataModal['surat_dokter'];
+            $this->jenisModal = $type;
+            $this->idPerizinan = $dataModal['id_sakit'];
         }
+    }
+
+    public function Update()
+    {
+        if($this->jenisModal == 'izin'){
+            ijin::where('id_ijin', $this->idPerizinan)->update([
+                'keterangan' => $this->ket,
+                'tanggal_izin_awal' => $this->tglmulai,
+                'tanggal_izin_akhir' => $this->tglsampai,
+            ]);
+        }elseif($this->jenisModal == 'cuti'){
+            cuti::where('id_cuti', $this->idPerizinan)->update([
+                'keterangan' => $this->ket,
+                'tanggal_cuti_awal' => $this->tglmulai,
+                'tanggal_cuti_akhir' => $this->tglsampai,
+            ]);
+        }elseif($this->jenisModal == 'sakit'){
+            if ($this->foto == '') {
+                sakit::where('id_sakit', $this->idPerizinan)->update([
+                    'keterangan' => $this->ket,
+                    'tanggal_sakit_awal' => $this->tglmulai,
+                    'tanggal_sakit_akhir' => $this->tglsampai,
+                ]);
+            }else{
+                unlink(public_path('storage/'.$this->fotoLama));
+                $fotoName = $this->foto->store('suratDokter', 'public');
+                sakit::where('id_sakit', $this->idPerizinan)->update([
+                    'keterangan' => $this->ket,
+                    'tanggal_sakit_awal' => $this->tglmulai,
+                    'tanggal_sakit_akhir' => $this->tglsampai,
+                    'surat_dokter' => $fotoName
+                ]);
+            }
+        }
+        $this->form=0;
+        $this->ket ='';
+        $this->foto ='';
+        $this->fotoLama ='';
+        $this->tglmulai ='';
+        $this->tglsampai ='';
+        $this->jenisModal ='';
+        $this->idPerizinan  = '';
     }
 }

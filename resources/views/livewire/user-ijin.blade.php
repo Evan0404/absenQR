@@ -264,12 +264,10 @@
                                      <td>
                                          <div class="btn-group" role="group" aria-label="Basic example">
                                              <button type="button" data-bs-toggle="modal" data-bs-target="#shw"
-                                                 wire:click="changeform('0')"
                                                  wire:click="changeModal('izin', {{ $data->id_ijin }})"
                                                  class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
                                              @if ($data->status == 'Diajukan')
                                                  <button type="button" data-bs-toggle="modal" data-bs-target="#edt"
-                                                     wire:click="changeform('0')"
                                                      wire:click="changeModal('izin', {{ $data->id_ijin }})"
                                                      class="btn btn-sm btn-success"><i
                                                          class="bi bi-pencil"></i></button>
@@ -289,12 +287,10 @@
                                      <td>
                                          <div class="btn-group" role="group" aria-label="Basic example">
                                              <button type="button" data-bs-toggle="modal" data-bs-target="#shw"
-                                                 wire:click="changeform('0')"
                                                  wire:click="changeModal('cuti', {{ $data->id_cuti }})"
                                                  class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
                                              @if ($data->status == 'Diajukan')
                                                  <button type="button" data-bs-toggle="modal" data-bs-target="#edt"
-                                                     wire:click="changeform('0')"
                                                      wire:click="changeModal('cuti', {{ $data->id_cuti }})"
                                                      class="btn btn-sm btn-success"><i
                                                          class="bi bi-pencil"></i></button>
@@ -313,13 +309,13 @@
                                      <td>Sakit</td>
                                      <td>
                                          <div class="btn-group" role="group" aria-label="Basic example">
-                                             <button type="button" data-bs-toggle="modal" data-bs-target="#shw"
-                                                 wire:click="changeform('0')"
+                                             <button type="button" data-bs-toggle="modal"
+                                                 data-bs-target="#shwSakit{{ $data->id_sakit }}"
                                                  wire:click="changeModal('sakit', {{ $data->id_sakit }})"
                                                  class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
                                              @if ($data->status == 'Diajukan')
-                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#edt"
-                                                     wire:click="changeform('0')"
+                                                 <button type="button" data-bs-toggle="modal"
+                                                     data-bs-target="#edtSakit{{ $data->id_sakit }}"
                                                      wire:click="changeModal('sakit', {{ $data->id_sakit }})"
                                                      class="btn btn-sm btn-success"><i
                                                          class="bi bi-pencil"></i></button>
@@ -329,6 +325,146 @@
                                          </div>
                                      </td>
                                  </tr>
+                                 {{-- Modal Show Sakit (Soal e ada foto e) --}}
+                                 <div class="modal fade" wire:ignore id="shwSakit{{ $data->id_sakit }}"
+                                     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                     <div class="modal-dialog modal-lg">
+                                         <div class="modal-content">
+                                             <div class="modal-header">
+                                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Detail
+                                                     Perizinan Sakit</h1>
+                                                 <button type="button" class="btn-close"
+                                                     wire:click="changeform('0')"" data-bs-dismiss="modal"
+                                                     aria-label="Close"></button>
+                                             </div>
+                                             <div class="modal-body">
+                                                 <form>
+                                                     <div class="row">
+                                                         <div class="col-md-6">
+                                                             <img class="w-100"
+                                                                 src="{{ asset('storage') }}/{{ $data->surat_dokter }}"
+                                                                 alt="">
+                                                         </div>
+                                                         <div class="col-md-6">
+                                                             <div class="mb-3">
+                                                                 <label for="exampleInputEmail1" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Nama</b></label>
+                                                                 <input disabled type="text" class="form-control"
+                                                                     disabled readonly id="exampleInputEmail1"
+                                                                     value="{{ Auth::user()->name }}"
+                                                                     aria-describedby="emailHelp">
+                                                                 {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                                                             </div>
+                                                             <div class="mb-3">
+                                                                 <label for="" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Tanggal
+                                                                         Izin</b></label>
+                                                                 <input disabled type="date" wire:model="tglmulai"
+                                                                     class="form-control">
+                                                             </div>
+                                                             <div class="mb-3">
+                                                                 <label for="" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Sampai
+                                                                         Tanggal</b></label>
+                                                                 <input disabled type="date" wire:model="tglsampai"
+                                                                     class="form-control">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                     <div class="mb-3">
+                                                         <label for="" class="form-label"
+                                                             style="float: left; margin-left: 2px;"><b>Keterangan</b></label>
+                                                         {{-- <input type="date" class="form-control"> --}}
+                                                         <textarea disabled name="" wire:model="ket" class="form-control"></textarea>
+                                                     </div>
+                                                     {{-- <button type="button" class="btn btn-primary w-100"
+                                                        wire:click="createCuti()">Ajukan</button> --}}
+                                                 </form>
+                                             </div>
+                                             <div class="modal-footer">
+                                                 <button type="button" class="btn btn-secondary"
+                                                     wire:click="changeform('0')""
+                                                     data-bs-dismiss="modal">Close</button>
+                                                 {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                                 {{-- Modal Edit Sakit (Soal e ada foto e) --}}
+                                 <div class="modal fade" wire:ignore id="edtSakit{{ $data->id_sakit }}"
+                                     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                     <div class="modal-dialog modal-lg">
+                                         <div class="modal-content">
+                                             <div class="modal-header">
+                                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit
+                                                     Perizinan Sakit</h1>
+                                                 <button type="button" class="btn-close"
+                                                     wire:click="changeform('0')"" data-bs-dismiss="modal"
+                                                     aria-label="Close"></button>
+                                             </div>
+                                             <div class="modal-body">
+                                                 <form>
+                                                     <div class="row">
+                                                         <div class="col-md-6">
+                                                             <img class="w-100"
+                                                                 src="{{ asset('storage') }}/{{ $data->surat_dokter }}"
+                                                                 alt="">
+                                                         </div>
+                                                         <div class="col-md-6">
+                                                             <div class="mb-3">
+                                                                 <label for="exampleInputEmail1" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Nama</b></label>
+                                                                 <input disabled type="text" class="form-control"
+                                                                     disabled readonly id="exampleInputEmail1"
+                                                                     value="{{ Auth::user()->name }}"
+                                                                     aria-describedby="emailHelp">
+                                                                 {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                                                             </div>
+                                                             <div class="mb-3">
+                                                                 <label for="" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Tanggal
+                                                                         Izin</b></label>
+                                                                 <input type="date" wire:model="tglmulai"
+                                                                     class="form-control">
+                                                             </div>
+                                                             <div class="mb-3">
+                                                                 <label for="" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Sampai
+                                                                         Tanggal</b></label>
+                                                                 <input type="date" wire:model="tglsampai"
+                                                                     class="form-control">
+                                                             </div>
+                                                             <div class="mb-3">
+                                                                 <label for="" class="form-label"
+                                                                     style="float: left; margin-left: 2px;"><b>Foto</b></label>
+                                                                 <input type="file" wire:model="foto"
+                                                                     class="form-control">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                     <div class="mb-3">
+                                                         <label for="" class="form-label"
+                                                             style="float: left; margin-left: 2px;"><b>Keterangan</b></label>
+                                                         {{-- <input type="date" class="form-control"> --}}
+                                                         <textarea name="" wire:model="ket" class="form-control"></textarea>
+                                                     </div>
+                                                     {{-- <button type="button" class="btn btn-primary w-100"
+                                                        wire:click="createCuti()">Ajukan</button> --}}
+                                                 </form>
+                                             </div>
+                                             <div class="modal-footer">
+                                                 <button type="button" class="btn btn-secondary"
+                                                     wire:click="changeform('0')""
+                                                     data-bs-dismiss="modal">Close</button>
+                                                 <button data-bs-dismiss="modal" type="button" wire:click="Update()"
+                                                     class="btn btn-primary">Update</button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
                              @endforeach
                          </tbody>
                      </table>
@@ -336,7 +472,7 @@
              </div>
          </div>
      </div>
-     <!-- Modal Show -->
+     <!-- Modal Show Ijin & Cuti -->
      <div class="modal fade" wire:ignore id="shw" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
          <div class="modal-dialog modal-lg">
@@ -387,6 +523,8 @@
          </div>
      </div>
 
+
+
      <!-- Modal Edit -->
      <div class="modal fade" wire:ignore id="edt" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -431,7 +569,8 @@
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" wire:click="changeform('0')""
                          data-bs-dismiss="modal">Close</button>
-                     {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
+                     <button type="button" data-bs-dismiss="modal" wire:click="Update()"
+                         class="btn btn-primary">Understood</button>
                  </div>
              </div>
          </div>
